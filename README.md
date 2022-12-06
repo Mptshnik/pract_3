@@ -1,16 +1,18 @@
-# pract_3
+ПРАКТИЧЕСКАЯ РАБОТА №4
+Цель: создать проект с использованием Cubit. Реализовать кликер. Если в приложении установлена светлая тема за клик прибавляет +1 если темная тема прибавляется +2. Реализовать список нажатий и при какой теме было совершено нажатие. Все элементы должны находиться на одном экране.
 
-A new Flutter project.
+В начале работы в файл pubspec.yaml была добавлена библиотека для управления различными состояниями в приложении flutter_bloc.
 
-## Getting Started
+Затем был создан класс HomeCubit. Данный класс содержит логику, отвечающую за увеличение счетчика на 1 или 2 единицы, а также запись логов в список. 
 
-This project is a starting point for a Flutter application.
+Также был создан класс ClickState, который наследуется от класса HomeState. Класс ClickState отвечает за состояние клика по кнопке.
 
-A few resources to get you started if this is your first Flutter project:
+Затем необходимо создать класс ThemeCubit. Данный класс отвечает за смену темы приложения.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Также, создаются два класса состояния для темной и светлой темы. DarkThemeState и LightThemeState.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Темы приложения будут хранится в одном классе Themes. Данный класс содержит две статические переменные, которые хранят информацию о цветах элементов в светлой и темной теме.
+
+Затем в файле main.dart создадим класс MyApp. В классе MyHomePage элемент Text, который будет перерисовываться заворачивается в BlocBuilder. Затем необходимо добавить кнопку кликера. Также в BlocBuilder необходимо завернуть список логов ListView, так как данный элемент будет перерисовываться. Также добавляем кнопку смены темы и оборачиваем в BlocBuilder.
+
+Вывод: создан проект с использованием Cubit. Реализован кликер. Если в приложении установлена светлая тема за клик прибавляет +1 если темная тема прибавляется +2. Реализован список нажатий и при какой теме было совершено нажатие. Все элементы находятся на одном экране.
