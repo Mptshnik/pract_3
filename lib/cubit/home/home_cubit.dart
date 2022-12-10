@@ -17,8 +17,26 @@ class HomeCubit extends Cubit<HomeState> {
   void handleClick(ThemeMode themeMode) {
     if (themeMode == ThemeMode.dark) {
       clickCount += 2;
+      emit(ClickState(clickCount));
     } else {
       clickCount++;
+      emit(ClickState(clickCount));
+    }
+/*
+    if (clickCount >= 100) {
+      emit(FinishState());
+    }*/
+
+    message = "Кликер: $clickCount. Тема: ${themeMode.name}";
+
+    messages.add(message);
+  }
+
+  void handleClickMinus(ThemeMode themeMode) {
+    if (themeMode == ThemeMode.dark) {
+      clickCount -= 2;
+    } else {
+      clickCount--;
     }
 
     message = "Кликер: $clickCount. Тема: ${themeMode.name}";
@@ -28,7 +46,6 @@ class HomeCubit extends Cubit<HomeState> {
     messages.add(message);
   }
 
-  
   void themeSwitched(BuildContext context) {
     messages.add(
         'Вы поменяли тему на ${context.read<ThemeCubit>().themeMode.name}');

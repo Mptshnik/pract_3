@@ -35,6 +35,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +47,21 @@ class MyHomePage extends StatelessWidget {
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 if (state is ClickState) {
+                  if (state.clickCount >= 100) {
+                    return Text(
+                      'Game over!',
+                      style: TextStyle(color: Colors.red, fontSize: 30),
+                    );
+                  }
+                }
+                return Container();
+              },
+            ),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is ClickState) {
+                  count = state.clickCount;
+
                   return Text(
                     state.clickCount.toString(),
                     style: Theme.of(context).textTheme.headline4,
@@ -56,32 +73,58 @@ class MyHomePage extends StatelessWidget {
                 );
               },
             ),
-            ElevatedButton(
-              onPressed: () {
-                context
-                    .read<HomeCubit>()
-                    .handleClick(context.read<ThemeCubit>().themeMode);
-              },
-              child: const Icon(Icons.add),
-            ),
-            SizedBox(width: 300, height: 300, child: Expanded(
-                      child: BlocBuilder<HomeCubit, HomeState>(
-                        builder: (context, state) {
-                          return ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Center(
-                                child: Text(context
-                                    .read<HomeCubit>()
-                                    .messages[index]),
-                              );
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: count <= 0
+                          ? null
+                          : () {
+                              context.read<HomeCubit>().handleClickMinus(
+                                  context.read<ThemeCubit>().themeMode);
                             },
-                            itemCount:
-                                context.read<HomeCubit>().messages.length,
-                          );
-                        },
-                      ),
-                    ),)
+                      child: const Icon(Icons.remove),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                      onPressed: count >= 100
+                          ? null
+                          : () {
+                              context.read<HomeCubit>().handleClick(
+                                  context.read<ThemeCubit>().themeMode);
+                            },
+                      child: const Icon(Icons.add),
+                    ),
+                  ],
+                );
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: 300,
+              height: 300,
+              child: Expanded(
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Center(
+                          child:
+                              Text(context.read<HomeCubit>().messages[index]),
+                        );
+                      },
+                      itemCount: context.read<HomeCubit>().messages.length,
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),

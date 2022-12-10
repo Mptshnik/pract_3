@@ -11,3 +11,7 @@ class ClickState extends HomeState
 
   ClickState(this.clickCount);
 }
+
+class FinishState extends HomeState{
+
+}
